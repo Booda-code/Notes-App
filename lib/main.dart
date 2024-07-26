@@ -11,9 +11,7 @@ class NotesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: bool.hasEnvironment(AutofillHints.addressCity),
-      home: Scaffold(
 
-      ),
     );
   }
 }
