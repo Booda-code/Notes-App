@@ -7,6 +7,7 @@ final Icon icon;
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
       title: Text(
         title,
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),

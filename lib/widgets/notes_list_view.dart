@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'notes_item.dart';
+import 'note_item.dart';
 
 class NotesListView extends StatelessWidget {
   const NotesListView({super.key});
@@ -24,7 +24,7 @@ class NotesListView extends StatelessWidget {
         child: ListView.builder(
           padding: EdgeInsets.zero,
           itemBuilder: (context, index) {
-            return NotesItem(color: data[index % data.length]);
+            return NoteItem(color: data[index % data.length]);
           },
         ),
       ),
