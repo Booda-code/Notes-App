@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'custom_button.dart';
 import 'custom_text_button.dart';
 
 class AddNoteBottomSheet extends StatelessWidget {
@@ -6,32 +7,63 @@ class AddNoteBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+    return const Padding(padding: EdgeInsets.all(8.0), child: AddNoteForm());
+  }
+}
+
+class AddNoteForm extends StatefulWidget {
+  const AddNoteForm({super.key});
+
+  @override
+  State<AddNoteForm> createState() => _AddNoteFormState();
+}
+
+class _AddNoteFormState extends State<AddNoteForm> {
+  final GlobalKey<FormState> formKey = GlobalKey();
+
+  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+
+  String? title, subTitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: formKey,
+      autovalidateMode: autovalidateMode,
       child: Column(
         spacing: 8,
         children: [
           SizedBox(height: 28),
-          CustomTextButton(hintText: 'Title',vertical: 20,),
+          CustomTextButton(
+            onSaved: (value) {
+              title = value;
+            },
+            hintText: 'Title',
+            vertical: 20,
+          ),
           SizedBox(height: 8),
-          CustomTextButton(hintText: 'Content', vertical: 80),
+          CustomTextButton(
+            onSaved: (value) {
+              subTitle = value;
+            },
+            hintText: 'Content',
+            vertical: 80,
+          ),
           SizedBox(height: 50),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: Colors.blueAccent,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: TextButton(
-              onPressed: () {},
-              child: Text(
-                'Add Note',
-                style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
-              ),
-            ),
-          )
+          CustomButton(
+            onTap: (){
+              if (formKey.currentState!.validate())
+              {
+                formKey.currentState!.save();
+              } else{
+                autovalidateMode = AutovalidateMode.always;
+                setState(() {});
+              }
+            },
+          ),
         ],
       ),
     );
   }
 }
+

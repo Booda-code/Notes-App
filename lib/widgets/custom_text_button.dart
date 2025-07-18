@@ -2,25 +2,41 @@ import 'package:flutter/material.dart';
 
 class CustomTextButton extends StatelessWidget {
   const CustomTextButton({
-    super.key, required this.hintText, required this.vertical,
+    super.key,
+    required this.hintText,
+    required this.vertical, this.onSaved,
   });
+
   final String hintText;
   final double vertical;
+  final void Function(String?)? onSaved;
+
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      onSaved: onSaved,
+      validator: (value) {
+        if (value?.isEmpty ?? true) {
+          return 'field is required';
+        } else {
+          return null;
+        }
+      },
       decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-          focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blueAccent)),
-          hintText: hintText,
-          hintStyle: TextStyle(color: Colors.blueAccent),
-          border: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black),
-          ),
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: vertical,
-          )),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.white),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blueAccent),
+        ),
+        hintText: hintText,
+        hintStyle: TextStyle(color: Colors.blueAccent),
+        border: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: vertical,
+        ),
+      ),
     );
   }
 }
