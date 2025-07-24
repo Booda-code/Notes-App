@@ -4,16 +4,17 @@ class CustomTextButton extends StatelessWidget {
   const CustomTextButton({
     super.key,
     required this.hintText,
-    required this.vertical, this.onSaved,
+    required this.vertical, this.onSaved, this.onChanged,
   });
 
   final String hintText;
   final double vertical;
   final void Function(String?)? onSaved;
-
+  final void Function(String)? onChanged;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: onChanged,
       onSaved: onSaved,
       validator: (value) {
         if (value?.isEmpty ?? true) {

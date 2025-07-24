@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/views/edit_note_view.dart';
+
+import '../cubits/notes_cubit/notes_cubit.dart';
 
 class NoteItem extends StatelessWidget {
   final Color color;
 
-  const NoteItem({super.key, required this.color});
+  const NoteItem({super.key, required this.color, required this.note});
+
+  final NoteModel note;
 
   @override
   Widget build(BuildContext context) {
@@ -12,9 +18,16 @@ class NoteItem extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8),
       child: GestureDetector(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return EditNoteView();
-          },));
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return EditNoteView(
+                  note: note,
+                );
+              },
+            ),
+          );
         },
         child: Container(
           padding: const EdgeInsets.all(8.0),
@@ -27,25 +40,35 @@ class NoteItem extends StatelessWidget {
             children: [
               ListTile(
                 title: Text(
-                  'Flutter Tips',
-                  style: TextStyle(fontSize: 26,color: Colors.black),
+                  note.title,
+                  style: TextStyle(fontSize: 26, color: Colors.black),
                 ),
                 subtitle: Padding(
                   padding: const EdgeInsets.only(top: 16),
                   child: Text(
-                    'Build your carer app using Flutter',
-                    style: TextStyle(fontSize: 20,color: Colors.black.withOpacity(0.6)),
+                    note.subTitle,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black.withOpacity(0.6),
+                    ),
                   ),
                 ),
-                trailing: Icon(
-                  Icons.delete,
+                trailing: IconButton(
+                  iconSize: 30,
+                  icon: Icon(Icons.delete),
                   color: Colors.black,
-                  size: 30,
+                  onPressed: () {
+                    note.delete();
+                    BlocProvider.of<NotesCubit>(context).fetchAllNotes();
+                  },
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
-                child: Text('May21, 2022',style: TextStyle(color: Colors.black.withOpacity(0.6)),),
+                child: Text(
+                  note.date,
+                  style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                ),
               ),
             ],
           ),
